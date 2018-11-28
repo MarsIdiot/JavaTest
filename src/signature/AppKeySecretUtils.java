@@ -1,4 +1,4 @@
-package appKey_appSecret;
+package signature;
 
 import java.security.MessageDigest;
 import java.util.Random;
@@ -16,10 +16,10 @@ public class AppKeySecretUtils {
     /** 加盐加密中, 生成随机数的长度 */
     private static final Integer SALT_LENGTH = 16;
 
-    /** MD5 加密后密文长度 */
+    /** MD5_Appkey_Appsecret 加密后密文长度 */
     private static final Integer MD5_CIPHERTEXT_LENGTH = 32;
 
-    /** 加盐 MD5 算法后总长度 */
+    /** 加盐 MD5_Appkey_Appsecret 算法后总长度 */
     private static final Integer SALT_MD5_CIPHERTEXT_LENGTH = 48;
 
     /**
@@ -103,14 +103,14 @@ public class AppKeySecretUtils {
     }
 
     /**
-     * MD5 加密,并把结果由字节数组转换成 16进制 字符串
+     * MD5_Appkey_Appsecret 加密,并把结果由字节数组转换成 16进制 字符串
      *
      * @param string 要加密的字符串
      * @return 返回加密后 16进制 字符串
      */
     private static String md5Hex(String string) {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("MD5_Appkey_Appsecret");
             byte[] digest = md.digest(string.getBytes());
             return hex(digest);
         } catch (Exception e) {

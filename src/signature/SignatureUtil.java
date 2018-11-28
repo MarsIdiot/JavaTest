@@ -1,4 +1,4 @@
-package appKey_appSecret;
+package signature;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -13,18 +13,28 @@ import java.util.Set;
  * @version: 1.0
  */
 public class SignatureUtil {
-
     public static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     public static String sign(Map<String, String> params, String appKey, String appSecret, String timestamp, String url) {
+       //1、对传入的参数的key进行排序
         Set<String> paramsKeySet = params.keySet();
         String[] keys = paramsKeySet.toArray(new String[paramsKeySet.size()]);
-        Arrays.sort(keys);
+        Arrays.sort(keys);//字母顺序
+        //2、拼接
         String joinedParams = joinRequestParams(params, appKey, appSecret, timestamp, url, keys);
+        //3、MD5加密
         byte[] abstractMessage = digest(joinedParams);
+        //4、字节数组转换为16进制，得到签名sign
         return byte2Hex(abstractMessage);
     }
+    /*
+    Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key
+     */
 
+    /*
+    字节数组转换为16位字符串
+    byte[] 8位二进制数组
+     */
     private static String byte2Hex(byte[] data) {
         int length = data.length;
         char hexChars[] = new char[length * 2];
