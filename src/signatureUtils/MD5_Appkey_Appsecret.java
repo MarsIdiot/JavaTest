@@ -1,4 +1,4 @@
-package signature;
+package signatureUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

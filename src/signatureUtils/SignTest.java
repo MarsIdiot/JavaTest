@@ -1,4 +1,4 @@
-package signature;
+package signatureUtils;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class SignTest {
     @Test
     public void signTest(){
         Map<String,String> params=new HashMap<String,String>();
-        params.put("userName","ucar");
+        params.put("userName","abc");
         params.put("password","123456");
         params.put("accountType","1");
         String  appkey="66407340-1f98-4689-8090-93835b2a11ff";
@@ -25,7 +25,7 @@ public class SignTest {
         String  timestamp="201811290830";
         String  url="htpp://127.0.0.1/getProduct";
         String signature = SignatureUtil.sign(params, appkey, appSecret, timestamp, url);
-        System.out.println("signature: "+signature+"  length="+signature.length());
+        System.out.println("signatureUtils: "+signature+"  length="+signature.length());
 
     }
 }

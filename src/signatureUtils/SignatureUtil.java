@@ -1,4 +1,4 @@
-package signature;
+package signatureUtils;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -7,8 +7,7 @@ import java.util.Set;
 
 /**
  * 接口签名验证
- * @author: xiaokang.zhu
- * @email: xiaokang.zhu@ucarinc.com
+ *
  * @date: 2018/11/26
  * @version: 1.0
  */

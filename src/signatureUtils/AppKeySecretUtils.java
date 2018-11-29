@@ -1,4 +1,4 @@
-package signature;
+package signatureUtils;
 
 import java.security.MessageDigest;
 import java.util.Random;
@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * Description: 生成 appKey 和 appSecret 的工具类
  *
- * @author: 郑智国 (zhiguo.zheng@ucarinc.com)
+ * @author:
  * @time: 2018/11/24 15:49
  * @version: V1.0
  */
