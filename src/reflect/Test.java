@@ -2,7 +2,7 @@ package reflect;
 
 /**
  * @Description:
- * @Auther: 周天浪（tianlang.zhou@ucarinc.com）
+ * @Auther:
  * @Date: 2018/10/23 16:36
  */
 public class Test {
