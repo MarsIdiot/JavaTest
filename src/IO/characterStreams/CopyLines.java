@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.io.*;
 
 /**
- * @Description:以行为单位读取和输出
+ * @Description:以行为单位读取和输出   缓冲流
  * @Date: 2019/3/7 14:09
  */
 public class CopyLines {
