@@ -30,7 +30,7 @@
       <option name="IGNORE_JAVADOC_PERIOD" value="true" />
       <option name="IGNORE_DUPLICATED_THROWS" value="false" />
       <option name="IGNORE_POINT_TO_ITSELF" value="false" />
-      <option name="myAdditionalJavadocTags" value="Description:测试String对象内容被修改后的指向的物理地址是否改变了,Auther:,Date:,Description:测试String/StringBuffer对象内容被修改后的指向的物理地址是否改变了" />
+      <option name="myAdditionalJavadocTags" value="Description:测试String对象内容被修改后的指向的物理地址是否改变了,Auther:,Date:,Description:测试String/StringBuffer对象内容被修改后的指向的物理地址是否改变了,Description:线程中断机制的演示" />
     </inspection_tool>
   </profile>
 </component>

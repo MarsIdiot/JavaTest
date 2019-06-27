@@ -41,7 +41,7 @@ public class demo1 {
             }
         }
 
-        System.out.println("xx");
+        System.out.println("BeanToXmlUtil");
 
 
     }
