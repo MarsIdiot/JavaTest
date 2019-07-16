@@ -20,7 +20,7 @@ public class EchoServer {
         try {
             ServerBootstrap sb = new ServerBootstrap();
             sb.group(group) // 绑定线程池
-                    .channel(NioServerSocketChannel.class) // 指定使用的channel
+                    .channel(NioServerSocketChannel.class) // 指定使用的channel  服务端
                     .localAddress(this.port)// 绑定监听端口
                     .childHandler(new ChannelInitializer<SocketChannel>() { // 绑定客户端连接时候触发操作
 

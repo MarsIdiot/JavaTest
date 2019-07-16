@@ -32,10 +32,10 @@ public class EchoClient {
     }
 
     public void start() throws Exception {
-        EventLoopGroup group = new NioEventLoopGroup();
+        EventLoopGroup group = new NioEventLoopGroup();//线程组
         try {
             Bootstrap b = new Bootstrap();
-            b.group(group) // 注册线程池
+            b.group(group) // 注册线程池(即绑定线程组)
                     .channel(NioSocketChannel.class) // 使用NioSocketChannel来作为连接用的channel类
                     .remoteAddress(new InetSocketAddress(this.host, this.port)) // 绑定连接端口和host信息
                     .handler(new ChannelInitializer<SocketChannel>() { // 绑定连接初始化器
