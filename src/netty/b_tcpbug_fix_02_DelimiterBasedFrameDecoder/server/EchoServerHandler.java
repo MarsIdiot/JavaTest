@@ -1,4 +1,4 @@
-package netty.tcpbug.server;
+package netty.b_tcpbug_fix_02_DelimiterBasedFrameDecoder.server;
 
 /**
  * @Description:
@@ -26,11 +26,15 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         //System.out.println("server channelRead...; received:" + msg);
-
+/*
         ByteBuf buf= (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
-        String body = new String(req, "UTF-8").substring(0, req.length - System.getProperty("line.separator").length());
+        String body = new String(req, "UTF-8").substring(0, req.length - System.getProperty("line.separator").length());*/
+        ByteBuf buf= (ByteBuf) msg;
+        byte[] req = new byte[buf.readableBytes()];
+        buf.readBytes(req);
+        String body = new String(req, "UTF-8");//接收到的数据已去除了换行符
 
         //客户端请求次数 内容打印
         System.out.println("server channelRead...; received order:" + body+"; the counter is: "+ ++counter);

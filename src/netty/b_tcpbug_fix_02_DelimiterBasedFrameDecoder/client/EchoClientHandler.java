@@ -1,14 +1,11 @@
-package netty.testlearn.client;
+package netty.b_tcpbug_fix_02_DelimiterBasedFrameDecoder.client;
 
-
-import java.nio.charset.Charset;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
+
 /**
  * @Description:
  * @Auther:
@@ -17,6 +14,12 @@ import io.netty.util.CharsetUtil;
 
 public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
+    private int counter;
+    private byte[] req;
+
+    public  EchoClientHandler(){
+        req=("QUERY TIME ORDER"+System.getProperty("line.separator")).getBytes();
+    }
     /**
      * 向服务器发起消息入口
      * @param ctx
@@ -25,7 +28,15 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("client channelActive..");
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8)); // 必须有flush
+        //ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8)); // 必须有flush
+        ByteBuf reqMessage=null;
+        for(int i=0;i<1000;i++){
+            reqMessage = Unpooled.buffer(req.length);
+            reqMessage.writeBytes(req);
+            ctx.writeAndFlush(reqMessage);
+            System.out.println(reqMessage.toString());
+        }
+
 
         // 必须存在flush
         // ctx.write(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8));
@@ -40,10 +51,14 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-        System.out.println("client channelRead..");
-        ByteBuf buf = msg.readBytes(msg.readableBytes());
-        System.out.println("Client received:" + ByteBufUtil.hexDump(buf) + "; The value is:" + buf.toString(Charset.forName("utf-8")));
-        //ctx.channel().close().sync();// client关闭channel连接
+        ByteBuf buf= (ByteBuf) msg;
+        byte[] req = new byte[buf.readableBytes()];
+        buf.readBytes(req);
+        String body = new String(req, "UTF-8").substring(0, req.length - System.getProperty("line.separator").length());
+
+        //客户端相同次数 内容打印
+        System.out.println("Now is: " + body+"; the counter is: "+ ++counter);
+
     }
 
     @Override

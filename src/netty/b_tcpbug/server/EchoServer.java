@@ -1,4 +1,4 @@
-package netty.tcpbug_fix.server;
+package netty.b_tcpbug.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,8 +7,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.LineBasedFrameDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 public class EchoServer {
     private final int port;
@@ -29,11 +27,6 @@ public class EchoServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             System.out.println("connected...; Client:" + ch.remoteAddress());
-
-                            //新增解码器
-                            ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
-                            ch.pipeline().addLast(new StringEncoder());
-
                             ch.pipeline().addLast(new EchoServerHandler()); // 客户端触发操作
                         }
                     });

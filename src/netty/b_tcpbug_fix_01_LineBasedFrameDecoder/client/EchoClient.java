@@ -1,4 +1,4 @@
-package netty.tcpbug_fix.client;
+package netty.b_tcpbug_fix_01_LineBasedFrameDecoder.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;

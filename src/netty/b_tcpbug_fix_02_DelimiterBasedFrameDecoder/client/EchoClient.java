@@ -1,4 +1,4 @@
-package netty.testlearn.client;
+package netty.b_tcpbug_fix_02_DelimiterBasedFrameDecoder.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,10 +7,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 import java.net.InetSocketAddress;
+
 /**
- * @Description:
+ * @Description:使用分割符解码器：DelimiterBasedFrameDecoder
  * @Auther:
  * @Date: 2019/6/5 14:41
  */
@@ -42,6 +45,10 @@ public class EchoClient {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             System.out.println("connected...");
+                            //新增解码器
+                            ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                            ch.pipeline().addLast(new StringEncoder());
+
                             ch.pipeline().addLast(new EchoClientHandler());
                         }
                     });

@@ -1,4 +1,4 @@
-package netty.tcpbug.client;
+package netty.b_tcpbug.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;

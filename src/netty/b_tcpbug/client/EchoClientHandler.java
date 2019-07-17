@@ -1,4 +1,4 @@
-package netty.tcpbug_fix.client;
+package netty.b_tcpbug.client;
 
 
 import io.netty.buffer.ByteBuf;
