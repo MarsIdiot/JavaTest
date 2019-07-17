@@ -7,6 +7,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
@@ -34,7 +35,8 @@ public class EchoServer {
                             System.out.println("connected...; Client:" + ch.remoteAddress());
 
                             //新增解码器
-                            ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                            ch.pipeline().addLast(new FixedLengthFrameDecoder(16));
+
                             ch.pipeline().addLast(new StringEncoder());
 
                             ch.pipeline().addLast(new EchoServerHandler()); // 客户端触发操作

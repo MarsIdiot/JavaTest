@@ -40,9 +40,9 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("server channelRead...; received order:" + body+"; the counter is: "+ ++counter);
 
         //响应  内容比对  让客户端知道数据是否沾包或拆包
-        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : "BAD ERROR";
+        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? "QUERY TIME ORDER" : "BAD ERROR";
 
-        currentTime = currentTime + System.getProperty("line.separator");
+//        currentTime = currentTime + System.getProperty("line.separator");
         ByteBuf resp= Unpooled.copiedBuffer(currentTime.getBytes());
         ctx.writeAndFlush(resp);//写入消息并调用channelReadComplete()全部输出到客户端
     }
