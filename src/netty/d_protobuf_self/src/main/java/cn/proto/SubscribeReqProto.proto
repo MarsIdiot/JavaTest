@@ -1,0 +1,9 @@
+syntax = "proto3";
+package netty;
+option java_package="com.netty.d_protobuf_self.proto";
+option java_outer_classname="SubscribeReqProto";
+
+message SubscribeReq{
+	int32 subReqID=1;
+	string name=2;
+}
