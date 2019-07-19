@@ -13,7 +13,7 @@ import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
-/**
+/**基于netty http的文件系统
  * @version 1.0
  */
 public class HttpFileServer {
