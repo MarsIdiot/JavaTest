@@ -1,4 +1,4 @@
-package cn.pojo;
+package netty.d_protobuf_02_netty.src.main.java.cn.pojo;
 
 import java.io.Serializable;
 
