@@ -1,11 +1,8 @@
 package netty.g_netty_priavte_protocol.client;
 
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import netty.c_netty_serializable.client.SubscribeReq;
-import netty.c_netty_serializable.server.SubscribeResp;
 import netty.g_netty_priavte_protocol.MessageType;
 import netty.g_netty_priavte_protocol.struct.Header;
 import netty.g_netty_priavte_protocol.struct.NettyMessage;
@@ -64,12 +61,13 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("client end;");
+        LOG.info("客户端【业务end】");
         ctx.flush();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        LOG.info("客户端【业务异常】"+cause.getMessage());
         cause.printStackTrace();
         ctx.close();
     }

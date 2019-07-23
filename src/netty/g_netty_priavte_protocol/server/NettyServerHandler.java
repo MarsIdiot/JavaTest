@@ -10,8 +10,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import netty.c_netty_serializable.client.SubscribeReq;
-import netty.c_netty_serializable.server.SubscribeResp;
 import netty.g_netty_priavte_protocol.MessageType;
 import netty.g_netty_priavte_protocol.client.NettyClientHandler;
 import netty.g_netty_priavte_protocol.struct.Header;
@@ -33,10 +31,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         NettyMessage req= (NettyMessage) msg;
-
+        LOG.info("服务端【3-业务接收-参数】："+req.toString());
         ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
-
-
+        LOG.info("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
+        
     }
 
     @Override
@@ -50,7 +48,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.out.println("server occur exception:" + cause.getMessage());
+        LOG.info("服务端【异常】"+cause.getMessage());
         cause.printStackTrace();
         ctx.close(); // 关闭发生异常的连接
     }

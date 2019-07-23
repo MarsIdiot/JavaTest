@@ -19,7 +19,9 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        LOG.info("客户端【1-登陆请求】");
         ctx.writeAndFlush(buildLoginReq());
+        LOG.info("客户端【1-登陆请求-参数】："+buildLoginReq());
     }
 
 
@@ -32,9 +34,11 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
             byte loginResult = (byte) message.getBody();
             if (loginResult != (byte) 0) {
                 // 握手失败，关闭连接
+                LOG.info("客户端【握手失败】");
                 ctx.close();
             } else {
-                LOG.info("Login is ok : " + message);
+                //LOG.info("Login is ok : " + message);
+                LOG.info("客户端【握手成功】"+ message);
                 ctx.fireChannelRead(msg);
             }
         } else
@@ -49,8 +53,8 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
         return message;
     }
 
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-            throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        LOG.info("客户端【重复性登陆认证异常】"+cause.getMessage());
         ctx.fireExceptionCaught(cause);
     }
 }

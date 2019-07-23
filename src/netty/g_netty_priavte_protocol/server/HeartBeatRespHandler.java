@@ -19,14 +19,15 @@ public class HeartBeatRespHandler extends ChannelInboundHandlerAdapter {
 
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg)
-            throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage message = (NettyMessage) msg;
         // 返回心跳应答消息
         if (message.getHeader() != null && message.getHeader().getType() == MessageType.HEARTBEAT_REQ.value()) {
-            LOG.info("Receive client heart beat message : ---> " + message);
+            //LOG.info("Receive client heart beat message : ---> " + message);
+            LOG.info("服务端【2-心跳消息接收】:"+message);
             NettyMessage heartBeat = buildHeatBeat();
-            LOG.info("Send heart beat response message to client : ---> " + heartBeat);
+            //LOG.info("Send heart beat response message to client : ---> " + heartBeat);
+            LOG.info("服务端【2-心跳消息响应】:"+heartBeat);
             ctx.writeAndFlush(heartBeat);
         } else
             ctx.fireChannelRead(msg);

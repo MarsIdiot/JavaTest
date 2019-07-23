@@ -26,8 +26,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
 
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg)
-            throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage message = (NettyMessage) msg;
 
         // 如果是握手请求消息，处理，其它消息透传
@@ -36,8 +35,10 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
             NettyMessage loginResp = null;
             // 重复登陆，拒绝
             if (nodeCheck.containsKey(nodeIndex)) {
+                LOG.info("服务端【重复登陆，拒绝】ip="+nodeIndex);
                 loginResp = buildResponse((byte) -1);
             } else {
+                LOG.info("服务端【握手成功】ip="+nodeIndex);
                 InetSocketAddress address = (InetSocketAddress) ctx.channel()
                         .remoteAddress();
                 String ip = address.getAddress().getHostAddress();
