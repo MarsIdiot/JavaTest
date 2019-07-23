@@ -31,4 +31,12 @@ public class NettyMessage implements Serializable {
         this.body = body;
     }
 
+
+    @Override
+    public String toString() {
+        return "NettyMessage{" +
+                "header=" + header +
+                ", body=" + body +
+                '}';
+    }
 }

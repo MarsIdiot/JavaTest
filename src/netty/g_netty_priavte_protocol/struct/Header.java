@@ -78,4 +78,16 @@ public class Header  implements Serializable {
     public void setAttachment(Map<String, Object> attachment) {
         this.attachment = attachment;
     }
+
+    @Override
+    public String toString() {
+        return "Header{" +
+                "crcCode=" + crcCode +
+                ", length=" + length +
+                ", sessionID=" + sessionID +
+                ", type=" + type +
+                ", priority=" + priority +
+                ", attachment=" + attachment +
+                '}';
+    }
 }
