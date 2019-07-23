@@ -30,12 +30,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        NettyMessage req= (NettyMessage) msg;
+//        NettyMessage req= (NettyMessage) msg;
         //LOG.info("服务端【3-业务接收-参数】："+req.toString());
+        String req= (String) msg;
         System.out.println("服务端【3-业务接收-参数】："+req.toString());
-        ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
+//        ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
+        ctx.writeAndFlush("服务端【3-业务接收-参数】：");
         //LOG.info("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
-        System.out.println("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
+//        System.out.println("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
 
     }
 

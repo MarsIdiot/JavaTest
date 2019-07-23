@@ -31,8 +31,8 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
         //LOG.info("客户端【3-业务请求】：");
         System.out.println("客户端【3-业务请求】：");
         for(int i=0;i<10;i++){
-            System.out.println("客户端【3-业务请求-参数】："+buildServiceReq().toString());
-            ctx.writeAndFlush(buildServiceReq());
+//            System.out.println("客户端【3-业务请求-参数】："+buildServiceReq().toString());
+            ctx.writeAndFlush("客户端【3-业务请求-参数】：");
             //LOG.info("客户端【3-业务请求-参数】："+buildServiceReq().toString());
         }
 
@@ -49,7 +49,8 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        NettyMessage resp= (NettyMessage) msg;
+//        NettyMessage resp= (NettyMessage) msg;
+        String resp= (String) msg;
         //LOG.info("客户端【3-业务响应-参数】："+resp.toString());
         System.out.println("客户端【3-业务响应-参数】："+resp.toString());
 
