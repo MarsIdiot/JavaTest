@@ -3,7 +3,6 @@ package netty.g_netty_priavte_protocol.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import netty.g_netty_priavte_protocol.MessageType;
-import netty.g_netty_priavte_protocol.client.HeartBeatReqHandler;
 import netty.g_netty_priavte_protocol.struct.Header;
 import netty.g_netty_priavte_protocol.struct.NettyMessage;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LoginAuthRespHandler.class);
+    //private static final Logger LOG = LoggerFactory.getLogger(LoginAuthRespHandler.class);
 
     private Map<String, Boolean> nodeCheck = new ConcurrentHashMap<String, Boolean>();
     private String[] whitekList = { "127.0.0.1", "192.168.1.104" };
@@ -35,10 +34,12 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
             NettyMessage loginResp = null;
             // 重复登陆，拒绝
             if (nodeCheck.containsKey(nodeIndex)) {
-                LOG.info("服务端【重复登陆，拒绝】ip="+nodeIndex);
+                //LOG.info("服务端【重复登陆，拒绝】ip="+nodeIndex);
+                System.out.println("服务端【重复登陆，拒绝】ip="+nodeIndex);
                 loginResp = buildResponse((byte) -1);
             } else {
-                LOG.info("服务端【握手成功】ip="+nodeIndex);
+                //LOG.info("服务端【握手成功】ip="+nodeIndex);
+                System.out.println("服务端【握手成功】ip="+nodeIndex);
                 InetSocketAddress address = (InetSocketAddress) ctx.channel()
                         .remoteAddress();
                 String ip = address.getAddress().getHostAddress();
@@ -53,7 +54,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
                 if (isOK)
                     nodeCheck.put(nodeIndex, true);
             }
-            LOG.info("The login response is : " + loginResp + " body [" + loginResp.getBody() + "]");
+//            LOG.info("The login response is : " + loginResp + " body [" + loginResp.getBody() + "]");
             ctx.writeAndFlush(loginResp);
         } else {
             ctx.fireChannelRead(msg);
@@ -69,8 +70,8 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
         return message;
     }
 
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-            throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("服务端【重复性登陆认证异常】"+cause.getMessage());
         cause.printStackTrace();
         nodeCheck.remove(ctx.channel().remoteAddress().toString());// 删除缓存
         ctx.close();

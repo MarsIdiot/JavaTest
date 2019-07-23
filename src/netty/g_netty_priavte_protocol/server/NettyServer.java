@@ -7,8 +7,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import netty.g_netty_priavte_protocol.codec.NettyMessageDecoder;
 import netty.g_netty_priavte_protocol.codec.NettyMessageEncoder;
@@ -38,13 +36,18 @@ public class NettyServer {
 
 
                             //编解码
-                            ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
-                            ch.pipeline().addLast(new NettyMessageEncoder());
+                            //ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
+                            //ch.pipeline().addLast(new NettyMessageEncoder());
 
                             //超时、重复登陆认证、心跳检测
                             ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
                             ch.pipeline().addLast(new LoginAuthRespHandler());
                             ch.pipeline().addLast("HeartBeatHandler", new HeartBeatRespHandler());
+
+                            //业务
+                            ch.pipeline().addLast(new NettyServerHandler());
+
+
                         }
                     });
             ChannelFuture cf = sb.bind().sync(); // 服务器异步创建绑定

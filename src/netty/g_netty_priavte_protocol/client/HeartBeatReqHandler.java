@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HeartBeatReqHandler.class);
+    //private static final Logger LOG = LoggerFactory.getLogger(HeartBeatReqHandler.class);
     private volatile ScheduledFuture<?> heartBeat;
 
     @Override
@@ -25,11 +25,13 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
         NettyMessage message = (NettyMessage) msg;
         // 握手成功，主动发送心跳消息
         if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_RESP.value()) {
-            LOG.info("客户端【1-握手成功接收】:主动发送心跳消息");
+            //LOG.info("客户端【1-握手成功接收】:主动发送心跳消息");
+            System.out.println("客户端【1-握手成功接收】:主动发送心跳消息");
             heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
         } else if (message.getHeader() != null && message.getHeader().getType() == MessageType.HEARTBEAT_RESP.value()) {
             //LOG.info("Client receive server heart beat message : ---> " + message);
-            LOG.info("客户端【2-心跳消息接收】:"+message);
+            //LOG.info("客户端【2-心跳消息接收】:"+message);
+            System.out.println("客户端【2-心跳消息接收】:"+message);
         } else
             ctx.fireChannelRead(msg);
     }
@@ -45,7 +47,8 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
         public void run() {
             NettyMessage heatBeat = buildHeatBeat();
             //LOG.info("Client send heart beat messsage to server : ---> " + heatBeat);
-            LOG.info("客户端【2-心跳消息请求】:"+heatBeat);
+            //LOG.info("客户端【2-心跳消息请求】:"+heatBeat);
+            System.out.println("客户端【2-心跳消息请求】:"+heatBeat);
             ctx.writeAndFlush(heatBeat);
         }
 
@@ -60,7 +63,8 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOG.info("客户端【心跳异常】"+cause.getMessage());
+        //LOG.info("客户端【心跳异常】"+cause.getMessage());
+        System.out.println("客户端【心跳异常】"+cause.getMessage());
 
         cause.printStackTrace();
         if (heartBeat != null) {

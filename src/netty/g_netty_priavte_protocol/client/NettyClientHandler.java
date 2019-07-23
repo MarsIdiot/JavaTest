@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public  class NettyClientHandler extends SimpleChannelInboundHandler {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(NettyClientHandler.class);
+    //private static final Logger LOG = LoggerFactory.getLogger(NettyClientHandler.class);
 
 
     /**
@@ -28,10 +28,12 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOG.info("客户端【3-业务请求】：");
+        //LOG.info("客户端【3-业务请求】：");
+        System.out.println("客户端【3-业务请求】：");
         for(int i=0;i<10;i++){
+            System.out.println("客户端【3-业务请求-参数】："+buildServiceReq().toString());
             ctx.writeAndFlush(buildServiceReq());
-            LOG.info("客户端【3-业务请求-参数】："+buildServiceReq().toString());
+            //LOG.info("客户端【3-业务请求-参数】："+buildServiceReq().toString());
         }
 
         // 必须存在flush
@@ -48,26 +50,28 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage resp= (NettyMessage) msg;
-        LOG.info("客户端【3-业务响应-参数】："+resp.toString());
+        //LOG.info("客户端【3-业务响应-参数】："+resp.toString());
+        System.out.println("客户端【3-业务响应-参数】："+resp.toString());
 
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage resp= (NettyMessage) msg;
-        LOG.info("客户端【3-业务响应-参数】："+resp.toString());
+        //LOG.info("客户端【3-业务响应-参数】："+resp.toString());
+        System.out.println("客户端【3-业务响应-参数】："+resp.toString());
     }
 
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        LOG.info("客户端【业务end】");
+        //LOG.info("客户端【业务end】");
         ctx.flush();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOG.info("客户端【业务异常】"+cause.getMessage());
+        //LOG.info("客户端【业务异常】"+cause.getMessage());
         cause.printStackTrace();
         ctx.close();
     }

@@ -10,18 +10,23 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import netty.g_netty_priavte_protocol.MessageType;
 import netty.g_netty_priavte_protocol.struct.Header;
 import netty.g_netty_priavte_protocol.struct.NettyMessage;
+import org.apache.log4j.helpers.LogLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
-    private static final Logger LOG = LoggerFactory.getLogger(LoginAuthReqHandler.class);
+
+    //private static final Logger LOG = LoggerFactory.getLogger(LoginAuthReqHandler.class);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOG.info("客户端【1-登陆请求】");
-        ctx.writeAndFlush(buildLoginReq());
-        LOG.info("客户端【1-登陆请求-参数】："+buildLoginReq());
+        //LogLog.debug("客户端【1-登陆请求】");
+        System.out.println("客户端【1-登陆请求】");
+//        ctx.writeAndFlush(buildLoginReq());
+        ctx.writeAndFlush(100010);
+        //LOG.info("客户端【1-登陆请求-参数】："+buildLoginReq());/
+        System.out.println("客户端【1-登陆请求-参数】："+buildLoginReq());
     }
 
 
@@ -34,11 +39,13 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
             byte loginResult = (byte) message.getBody();
             if (loginResult != (byte) 0) {
                 // 握手失败，关闭连接
-                LOG.info("客户端【握手失败】");
+                //LOG.info("客户端【握手失败】");
+                System.out.println("客户端【握手失败】");
                 ctx.close();
             } else {
                 //LOG.info("Login is ok : " + message);
-                LOG.info("客户端【握手成功】"+ message);
+                //LOG.info("客户端【握手成功】"+ message);
+                System.out.println("客户端【握手成功】"+ message);
                 ctx.fireChannelRead(msg);
             }
         } else
@@ -54,7 +61,8 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOG.info("客户端【重复性登陆认证异常】"+cause.getMessage());
+        //LOG.info("客户端【重复性登陆认证异常】"+cause.getMessage());
+        System.out.println("客户端【重复性登陆认证异常】"+cause.getMessage());
         ctx.fireExceptionCaught(cause);
     }
 }

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NettyClientHandler.class);
+   // private static final Logger LOG = LoggerFactory.getLogger(NettyClientHandler.class);
 
     /**
      * 接收客户端消息入口
@@ -31,10 +31,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         NettyMessage req= (NettyMessage) msg;
-        LOG.info("服务端【3-业务接收-参数】："+req.toString());
+        //LOG.info("服务端【3-业务接收-参数】："+req.toString());
+        System.out.println("服务端【3-业务接收-参数】："+req.toString());
         ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
-        LOG.info("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
-        
+        //LOG.info("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
+        System.out.println("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
+
     }
 
     @Override
@@ -48,7 +50,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOG.info("服务端【异常】"+cause.getMessage());
+        //LOG.info("服务端【异常】"+cause.getMessage());
+
+        System.out.println("服务端【业务异常】"+cause.getMessage());
         cause.printStackTrace();
         ctx.close(); // 关闭发生异常的连接
     }
