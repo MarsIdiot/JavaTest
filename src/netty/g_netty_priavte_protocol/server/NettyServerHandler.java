@@ -12,10 +12,17 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import netty.c_netty_serializable.client.SubscribeReq;
 import netty.c_netty_serializable.server.SubscribeResp;
+import netty.g_netty_priavte_protocol.MessageType;
+import netty.g_netty_priavte_protocol.client.NettyClientHandler;
+import netty.g_netty_priavte_protocol.struct.Header;
+import netty.g_netty_priavte_protocol.struct.NettyMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
-    private int counter;
+    private static final Logger LOG = LoggerFactory.getLogger(NettyClientHandler.class);
+
     /**
      * 接收客户端消息入口
      * @param ctx
@@ -24,15 +31,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //System.out.println("server channelRead...; received:" + msg);
 
-        SubscribeReq req= (SubscribeReq) msg;
-        if(req.getName().equalsIgnoreCase("MarsCHOU2")){
-            //客户端请求次数 内容打印
-            System.out.println("server channelRead...; received order:" + req.toString()+"; the counter is: "+ ++counter);
-            SubscribeResp resp=new SubscribeResp(String.valueOf(req.getSubReqID()));
-            ctx.writeAndFlush(resp);//写入消息并调用channelReadComplete()全部输出到客户端
-        }
+        NettyMessage req= (NettyMessage) msg;
+
+        ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
+
 
     }
 
@@ -50,5 +53,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("server occur exception:" + cause.getMessage());
         cause.printStackTrace();
         ctx.close(); // 关闭发生异常的连接
+    }
+
+
+    private NettyMessage buildServiceResp(NettyMessage req) {
+        NettyMessage message = new NettyMessage();
+        Header header = new Header();
+        header.setType(MessageType.SERVICE_RESP.value());
+        message.setHeader(header);
+        message.setBody("业务响应消息测试:答复请求__"+req.getBody().toString());
+        return message;
     }
 }
