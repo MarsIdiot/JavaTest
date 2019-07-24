@@ -8,6 +8,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
+import netty.g_netty_priavte_protocol.NettyConstant;
 import netty.g_netty_priavte_protocol.codecMarshalling.NettyMessageDecoder;
 import netty.g_netty_priavte_protocol.codecMarshalling.NettyMessageEncoder;
 
@@ -15,19 +16,14 @@ import netty.g_netty_priavte_protocol.codecMarshalling.NettyMessageEncoder;
  * 自定义基于netty的私有协议栈
  */
 public class NettyServer {
-    private final int port;
 
-    public NettyServer(int port) {
-        this.port = port;
-    }
-
-    public void start() throws Exception {
+    public void start(String host,int port) throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             ServerBootstrap sb = new ServerBootstrap();
             sb.group(group) // 绑定线程池
                     .channel(NioServerSocketChannel.class) // 指定使用的channel  服务端
-                    .localAddress(this.port)// 绑定监听端口
+                    .localAddress(host,port)// 绑定服务端ip和端口
                     .childHandler(new ChannelInitializer<SocketChannel>() { // 绑定客户端连接时候触发操作
 
                         @Override
@@ -63,6 +59,6 @@ public class NettyServer {
     }
 
     public static void main(String[] args) throws Exception {
-        new NettyServer(65535).start(); // 启动
+        new NettyServer().start(NettyConstant.REMOTEIP,NettyConstant.REMOTEPORT); // 启动
     }
 }
