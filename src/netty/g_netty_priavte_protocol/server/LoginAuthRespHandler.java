@@ -73,6 +73,8 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("服务端【重复性登陆认证异常】"+cause.getMessage());
         cause.printStackTrace();
+
+        //当链路异常时，清除客户端的信息，以便后续客户端可以登录
         nodeCheck.remove(ctx.channel().remoteAddress().toString());// 删除缓存
         ctx.close();
         ctx.fireExceptionCaught(cause);

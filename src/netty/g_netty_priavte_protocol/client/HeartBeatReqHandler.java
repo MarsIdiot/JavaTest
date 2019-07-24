@@ -26,6 +26,10 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
         // 握手成功，主动发送心跳消息
         if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_RESP.value()) {
             //LOG.info("客户端【1-握手成功接收】:主动发送心跳消息");
+            /**
+             * 握手成功后，会开启一个定时器Schedule来定时发送心跳消息。
+             * 心跳计时器的单位为毫秒，默认5000ms，即5秒发一条心跳消息
+             */
             System.out.println("客户端【1-握手成功接收】:主动发送心跳消息");
             heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
         } else if (message.getHeader() != null && message.getHeader().getType() == MessageType.HEARTBEAT_RESP.value()) {
