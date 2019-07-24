@@ -23,8 +23,8 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         //LogLog.debug("客户端【1-登陆请求】");
         System.out.println("客户端【1-登陆请求】");
-//        ctx.writeAndFlush(buildLoginReq());
-        ctx.writeAndFlush(100010);
+        ctx.writeAndFlush(buildLoginReq());
+//        ctx.writeAndFlush(100010);
         //LOG.info("客户端【1-登陆请求-参数】："+buildLoginReq());/
         System.out.println("客户端【1-登陆请求-参数】："+buildLoginReq());
     }

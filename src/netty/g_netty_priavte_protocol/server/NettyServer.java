@@ -7,12 +7,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.serialization.ClassResolvers;
-import io.netty.handler.codec.serialization.ObjectDecoder;
-import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import netty.g_netty_priavte_protocol.codec.NettyMessageDecoder;
-import netty.g_netty_priavte_protocol.codec.NettyMessageEncoder;
+import netty.g_netty_priavte_protocol.codecMarshalling.NettyMessageDecoder;
+import netty.g_netty_priavte_protocol.codecMarshalling.NettyMessageEncoder;
 
 /**
  * 自定义基于netty的私有协议栈
@@ -39,17 +36,18 @@ public class NettyServer {
 
 
                             //编解码
-                            //ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
-                            //ch.pipeline().addLast(new NettyMessageEncoder());
+                            ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
+                            ch.pipeline().addLast(new NettyMessageEncoder());
 
                             //超时、重复登陆认证、心跳检测
-                            //ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
-                            //ch.pipeline().addLast(new LoginAuthRespHandler());
-                            //ch.pipeline().addLast("HeartBeatHandler", new HeartBeatRespHandler());
+                            ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
+                            ch.pipeline().addLast(new LoginAuthRespHandler());
+                            ch.pipeline().addLast("HeartBeatHandler", new HeartBeatRespHandler());
 
-                            //Netty序列化工具——编码解码
+                           /* //Netty序列化工具——编码解码
                             ch.pipeline().addLast(new ObjectDecoder(1024*1024,ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
-                            ch.pipeline().addLast(new ObjectEncoder());
+                            ch.pipeline().addLast(new ObjectEncoder());*/
+
                             //业务
                             ch.pipeline().addLast(new NettyServerHandler());
 

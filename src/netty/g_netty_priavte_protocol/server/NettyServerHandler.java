@@ -17,6 +17,9 @@ import netty.g_netty_priavte_protocol.struct.NettyMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
    // private static final Logger LOG = LoggerFactory.getLogger(NettyClientHandler.class);
@@ -30,14 +33,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-//        NettyMessage req= (NettyMessage) msg;
+        NettyMessage req= (NettyMessage) msg;
         //LOG.info("服务端【3-业务接收-参数】："+req.toString());
-        String req= (String) msg;
+//        String req= (String) msg;
         System.out.println("服务端【3-业务接收-参数】："+req.toString());
-//        ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
+        ctx.writeAndFlush(buildServiceResp(req));//写入消息并调用channelReadComplete()全部输出到客户端
         ctx.writeAndFlush("服务端【3-业务接收-参数】：");
         //LOG.info("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
-//        System.out.println("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
+        System.out.println("服务端【3-业务响应-参数】："+buildServiceResp(req).toString());
 
     }
 
@@ -64,6 +67,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         NettyMessage message = new NettyMessage();
         Header header = new Header();
         header.setType(MessageType.SERVICE_RESP.value());
+        Map<String,Object> attachment=new HashMap<>();
+        for(int i=0;i<10;i++){
+            attachment.put("server_city_"+i,i);
+        }
+        header.setAttachment(attachment);
+
         message.setHeader(header);
         message.setBody("业务响应消息测试:答复请求__"+req.getBody().toString());
         return message;

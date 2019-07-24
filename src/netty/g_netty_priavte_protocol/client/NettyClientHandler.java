@@ -9,6 +9,9 @@ import netty.g_netty_priavte_protocol.struct.NettyMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Description:
  * @Auther:
@@ -30,11 +33,13 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         //LOG.info("客户端【3-业务请求】：");
         System.out.println("客户端【3-业务请求】：");
-        for(int i=0;i<10;i++){
-//            System.out.println("客户端【3-业务请求-参数】："+buildServiceReq().toString());
-            ctx.writeAndFlush("客户端【3-业务请求-参数】：");
+//        for(int i=0;i<10;i++){
+            System.out.println("客户端【3-业务请求-参数】："+buildServiceReq().toString());
+            //ctx.writeAndFlush("客户端【3-业务请求-参数】：");
+            ctx.writeAndFlush(buildServiceReq());
             //LOG.info("客户端【3-业务请求-参数】："+buildServiceReq().toString());
-        }
+
+//        }
 
         // 必须存在flush
         // ctx.write(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8));
@@ -49,10 +54,10 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        NettyMessage resp= (NettyMessage) msg;
-        String resp= (String) msg;
+        NettyMessage resp= (NettyMessage) msg;
+//        String resp= (String) msg;
         //LOG.info("客户端【3-业务响应-参数】："+resp.toString());
-        System.out.println("客户端【3-业务响应-参数】："+resp.toString());
+        System.out.println("客户端【3-业务接收-参数】："+resp.toString());
 
     }
 
@@ -60,7 +65,7 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyMessage resp= (NettyMessage) msg;
         //LOG.info("客户端【3-业务响应-参数】："+resp.toString());
-        System.out.println("客户端【3-业务响应-参数】："+resp.toString());
+        System.out.println("客户端【3-业务接收-参数】："+resp.toString());
     }
 
 
@@ -73,6 +78,8 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         //LOG.info("客户端【业务异常】"+cause.getMessage());
+        System.out.println("客户端【业务异常】"+cause.getMessage());
+
         cause.printStackTrace();
         ctx.close();
     }
@@ -81,6 +88,11 @@ public  class NettyClientHandler extends SimpleChannelInboundHandler {
         NettyMessage message = new NettyMessage();
         Header header = new Header();
         header.setType(MessageType.SERVICE_REQ.value());
+        Map<String,Object> attachment=new HashMap<>();
+        for(int i=0;i<10;i++){
+            attachment.put("client_city_"+i,i);
+        }
+        header.setAttachment(attachment);
         message.setHeader(header);
         message.setBody("业务请求消息测试");
         return message;
