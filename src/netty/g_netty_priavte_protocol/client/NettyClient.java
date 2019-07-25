@@ -3,6 +3,7 @@ package netty.g_netty_priavte_protocol.client;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -34,6 +35,8 @@ public class NettyClient {
             b.group(group) // 注册线程池(即绑定线程组)
                     .channel(NioSocketChannel.class) // 使用NioSocketChannel来作为连接用的channel类
 //                    .remoteAddress(new InetSocketAddress(host, port)) // 绑定连接端口和host信息
+                    .option(ChannelOption.TCP_NODELAY, true)
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)//连接超时设置
                     .handler(new ChannelInitializer<SocketChannel>() { // 绑定连接初始化器
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
