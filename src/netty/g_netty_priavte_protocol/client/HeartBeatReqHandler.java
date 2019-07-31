@@ -65,6 +65,14 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("客户端【心跳-channelReadComplete读取完成】");
+        super.channelReadComplete(ctx);
+    }
+
+
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         //LOG.info("客户端【心跳异常】"+cause.getMessage());

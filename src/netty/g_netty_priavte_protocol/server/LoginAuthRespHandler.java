@@ -70,6 +70,12 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
         return message;
     }
 
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("服务端【重复性登陆认证-channelReadComplete读取完成】");
+        super.channelReadComplete(ctx);
+    }
+
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("服务端【重复性登陆认证异常】"+cause.getMessage());
         cause.printStackTrace();
